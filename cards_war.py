@@ -14,6 +14,7 @@ class Card():
         To print Info about card 
         """
         return '({},{})'.format(self.suit,self.number)
+    
 
 class Deck():
     """ 
@@ -41,6 +42,7 @@ class Deck():
         else:
             return 'List is empty'
         
+        
 class Player():
     """ 
     Player class
@@ -65,8 +67,7 @@ class Player():
         temp_cards=self.player1_deck[0:4]
         del self.player1_deck[0:4]
         return temp_cards
-        
-    
+            
     def add_card_to_player1_deck(self,card):
         self.player1_deck.extend(card)
      
@@ -100,26 +101,22 @@ class Player():
         else:
             return False
     
-        
-    
-    
     def __str__(self):
         for card in self.player1_deck:
             print(card)
         return ''
     
+    
 class GameLogic():
-    
-    
-    
+    """ 
+    This class hold main logic for the game
+    """
     def check_if_deck_is_over(self, player):
         if (player.get_player1_deck_length() == 0 or player.get_player2_deck_length() == 0):
             return True
         else:
             return False
-
-
-
+        
     def check_who_wins(self,player):
         if(player.get_player1_deck_length() > player.get_player2_deck_length()):
             print('player 1 wins')
@@ -131,9 +128,7 @@ class GameLogic():
         if(player.get_player1_deck_length() >= 4 and player.get_player2_deck_length() >=4):
             self.player1_4_cards = player.get_four_cards_from_player1()
             self.player2_4_cards = player.get_four_cards_from_player2()
-            
           
-            
             while (self.player1_4_cards[len(self.player1_4_cards)-1].number == self.player2_4_cards[len(self.player2_4_cards)-1].number):
                 for i in self.player1_4_cards:
                     print(i)
@@ -161,7 +156,6 @@ class GameLogic():
             self.check_who_wins(player)
             return False
 
-        
     def compare_players_card(self,player):
         
         self.player1card = None
@@ -169,8 +163,7 @@ class GameLogic():
         self.player1_deck_length = player.get_player1_deck_length()
         self.player2_deck_length = player.get_player2_deck_length()
         self.count=0
-        
-        
+  
         while True:
             if(self.count==20):
                 player.shuffle_the_deck()
@@ -185,7 +178,7 @@ class GameLogic():
                         continue
                 else:
                     break
-                
+    
             self.player1card = player.get_a_card_from_player1()
             self.player2card = player.get_a_card_from_player2()
             
