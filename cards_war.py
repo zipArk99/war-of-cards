@@ -1,4 +1,5 @@
 import random
+import os
 
 class Card():
     def __init__(self,suit,number):
@@ -69,9 +70,13 @@ class Player():
     def add_card_to_player1_deck(self,card):
         self.player1_deck.extend(card)
      
+    def shuffle_the_deck(self):
+        random.shuffle(self.player1_deck)
+        random.shuffle(self.player2_deck)
     
     def get_player1_deck_length(self):
         return len(self.player1_deck)    
+    
     
     def get_a_card_from_player2(self):
         temp_card=self.player2_deck[0]
@@ -130,9 +135,12 @@ class GameLogic():
           
             
             while (self.player1_4_cards[len(self.player1_4_cards)-1].number == self.player2_4_cards[len(self.player2_4_cards)-1].number):
+                for i in self.player1_4_cards:
+                    print(i)
                 if(player.get_player1_deck_length() >= 4 and player.get_player2_deck_length() >= 4):
                     self.player1_4_cards.extend(player.get_four_cards_from_player1())
                     self. player2_4_cards.extend(player.get_four_cards_from_player2())
+                    
                 else:
                     if(player.get_player1_deck_length() > player.get_player2_deck_length()):
                         print('player 1 wins')
@@ -160,9 +168,13 @@ class GameLogic():
         self.player2card = None
         self.player1_deck_length = player.get_player1_deck_length()
         self.player2_deck_length = player.get_player2_deck_length()
+        self.count=0
         
         
         while True:
+            if(self.count==20):
+                player.shuffle_the_deck()
+                self.count=0
             if(player.comapre_two_cards()):
                 continue_game=self.declare_war(player)
                 if(continue_game):
@@ -198,12 +210,25 @@ class GameLogic():
             if(self.check_if_deck_is_over(player)):
                 self.check_who_wins(player)
                 break
+            self.count+=1
     
 if __name__ == '__main__':
-    deck=Deck()
-    deck.create_deck()
-    player=Player()
-    player.get_deck_and_divide(deck.get_deck_of_card())
-    gml=GameLogic()
-    gml.compare_players_card(player) 
-    
+    play=True
+    while play:
+        deck=Deck()
+        deck.create_deck()
+        player=Player()
+        player.get_deck_and_divide(deck.get_deck_of_card())
+        gml=GameLogic()
+        gml.compare_players_card(player)
+        del deck
+        del player
+        del gml
+        
+        user_input=raw_input("Do want to play again 'y' or 'n'::")
+        if(user_input.lower()=='n'):
+            print('Thanks for playing the game')
+            break
+        else:
+            os.system('clear')
+            continue
